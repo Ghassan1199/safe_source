@@ -1,7 +1,7 @@
-const { Sequelize, DataTypes } = require("sequelize");
 
-module.exports = (Sequelize,DataTypes) =>{
-    return Sequelize.define("file",{
+module.exports = (sequelize, DataTypes) => {
+    
+    return sequelize.define("file",{
         id:{
             type: DataTypes.INTEGER,
             autoIncrement: true,
@@ -16,16 +16,16 @@ module.exports = (Sequelize,DataTypes) =>{
             allowNull: false
         },
         check:{
-            type:bool
+            type: DataTypes.BOOLEAN,
+            defaultValue: false
         },
         public:{
-            type:bool
-        },
-        owner_id:{
-            
+            type: DataTypes.BOOLEAN,
+            defaultValue: false
+
         },
         date:{
-
+            type:DataTypes.DATE
         }
-    },{timestamps: true})
-}
+    });
+};
