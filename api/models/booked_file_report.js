@@ -7,11 +7,15 @@ module.exports = (sequelize, DataTypes)=>{
             primaryKey: true,
         },
         check_in_date: {
-           type: DataTypes.DATE
+           type: DataTypes.DATE,
+           allowNull: false
+
 
         },
         check_out_date: {
-            type: DataTypes.DATE
+            type: DataTypes.DATE,
+            allowNull: false
+
 
         }
     });

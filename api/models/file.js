@@ -17,15 +17,18 @@ module.exports = (sequelize, DataTypes) => {
         },
         check:{
             type: DataTypes.BOOLEAN,
-            defaultValue: false
+            defaultValue: false,
+            allowNull: false
+
         },
         public:{
             type: DataTypes.BOOLEAN,
-            defaultValue: false
-
+            defaultValue: false,
+            allowNull: false
         },
         date:{
-            type:DataTypes.DATE
+            type:DataTypes.DATE,
+            allowNull: false,
         }
     });
 };
