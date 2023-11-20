@@ -5,9 +5,9 @@ const jwt = require("jsonwebtoken");
 const User = require("../database/db");
 
 
-const RError = require("../../helpers/error");
+const RError = require("../helpers/error");
 
-const responseMessage = require("../../helpers/responseHandler");
+const responseMessage = require("../helpers/responseHandler");
 
 const checkUser = async (req, res, next) => {
 
