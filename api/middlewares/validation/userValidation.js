@@ -1,0 +1,29 @@
+
+const Model = require("../../database/db");
+const loginValidator = async (req) => {
+
+
+    const {name, password} = req.body;
+
+    if (!name || !password) {
+        throw new RError(400, "All fields are required");
+    }
+
+    const user = await Model.User.findOne({ name });
+
+    if (user == null) {
+
+        throw new RError(401, "wrong credentials");
+    }
+
+    const check = await bcrypt.compare(password, user.password);
+
+    if (!check) {
+        throw new RError(401, "wrong credentials");
+
+    }
+
+    return user;
+}
+
+module.exports = {loginValidator};
