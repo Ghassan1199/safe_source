@@ -8,21 +8,27 @@ const User = Model.User;
 
 
 const create = async (req) => {
-    try{
-        const token = req.headers["auth"];
-        const user = getUser(token);
+    try {
+
+        // const token = req.headers["auth"];
+
+        // const user = getUser(token);
+
         const transaction = await sequelize.transaction();
+
         const group = await Group.create({
             "name": req.body.name,
-            "owner_id": user.id
+            "owner_id": 1
         }, { transaction: transaction })
 
         await transaction.commit();
-        return responseMessage(true,200,"group created Successfully",group)
 
+        return responseMessage(true, 200, "group created Successfully", group)
 
-    }catch(err){
+    } catch (err) {
         console.log(err)
+        return responseMessage(false, 400, "couldn`t create the group", err)
+
     }
 
 
