@@ -2,12 +2,12 @@ require('dotenv').config()
 
 const jwt = require("jsonwebtoken");
 
-const User = require("../database/db");
+const Model = require("../database/db");
 
 
-const RError = require("../../helpers/error");
+const RError = require("../helpers/error");
 
-const responseMessage = require("../../helpers/responseHandler");
+const responseMessage = require("../helpers/responseHandler");
 
 const checkUser = async (req, res, next) => {
 
@@ -32,21 +32,20 @@ const checkUser = async (req, res, next) => {
 }
 
 
-const getUser = async (token, secretKey = process.env.ACCESS_SECRET_KEY) => {
+const getUser = async (token) => {
 
     if (!token) {
         throw new RError(401, "unauthorized");
     }
 
 
-    console.log("user")
 
-    const decodedToken = jwt.verify(token, secretKey);
+    const decodedToken = jwt.verify(token, process.env.SECRET_KEY);
 
     const _id = decodedToken.payload;
 
 
-    const user = await User.findById(_id).select("_id deleted refresh_token password");
+    const user = await Model.User.findById(_id).select("_id name");
 
 
     if (user == null) {
@@ -55,14 +54,7 @@ const getUser = async (token, secretKey = process.env.ACCESS_SECRET_KEY) => {
 
     }
 
-    if (user.deleted) {
-
-        throw new RError(404, "user not found")
-
-    }
-
     return user;
-
 
 }
 
