@@ -14,9 +14,7 @@ module.exports = (sequelize, DataTypes)=>{
         },
         check_out_date: {
             type: DataTypes.DATE,
-            allowNull: false
-
-
+            allowNull: true
         }
     });
 };
