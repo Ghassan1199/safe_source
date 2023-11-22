@@ -61,7 +61,7 @@ const show = async (group_id) => {
     }
 }
 
-const destroy = async (group_id,owner_id) => {
+const destroy = async (group_id, owner_id) => {
     try {
 
         const group = await Group.findByPk(group_id)
@@ -107,7 +107,7 @@ const addUser = async (group_id, user_id) => {
     }
 }
 
-const removeUser = async (user_id, group_id) => {
+const removeUser = async (user_id, group_id, user) => {
     try {
 
         const group = await Group.findByPk(group_id);
@@ -115,6 +115,8 @@ const removeUser = async (user_id, group_id) => {
         if (!group) throw new RError(404, "group not found");
 
         if (group.owner_id == user_id) throw new RError(400, "can`t remove the group owner ");
+        
+        if (group.owner_id != user && user != user_id) throw new RError(403, "not autherized");
 
         const group_user = await GroupUser.findOne({
             where: {
@@ -127,7 +129,7 @@ const removeUser = async (user_id, group_id) => {
 
         group_user.destroy();
 
-        return responseMessage(true, 200, "user deleted successfully", group_user);
+        return responseMessage(true, 200, "user removed successfully", group_user);
 
     } catch (error) {
 

@@ -37,7 +37,9 @@ const addUserToGroup = async (req, res) => {
 const removeUserFromGroup = async (req, res) => {
     const { group_id, user_id } = req.params;
 
-    const response = await groupServices.removeUser(user_id, group_id)
+    const user = req.user_id
+
+    const response = await groupServices.removeUser(user_id, group_id,user)
 
     return res.status(response.statusCode).json(response)
 
