@@ -2,10 +2,10 @@
 const bcrypt = require("bcrypt");
 const RError = require("../../helpers/error");
 const {Model} = require("../../database/db");
-const loginValidator = async (req) => {
+const loginValidator = async (name,password) => {
 
 
-    const {name, password} = req.body;
+
 
     if (!name || !password) {
         throw new RError(400, "All fields are required");

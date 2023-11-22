@@ -20,12 +20,10 @@ const { Model, Op } = require("../database/db");
 
 
 
-const create = async (req) => {
+const create = async (name, password) => {
     try {
 
 
-        const name = req.body.name;
-        let password = req.body.password;
 
 
         if (!name || !password) {
@@ -57,13 +55,11 @@ const create = async (req) => {
 
 }
 
-const login = async (req) => {
+const login = async (name, password) => {
     try {
 
 
-        const user = await userValidation.loginValidator(req);
-
-
+        const user = await userValidation.loginValidator(name, password);
 
         const token = jwt.sign({ id: user.id }, process.env.SECRET_KEY, { expiresIn: "1h" });
 
@@ -77,25 +73,15 @@ const login = async (req) => {
     }
 }
 
-const index = async (req) => {
+const index = async () => {
 
     try {
-        const token = req.headers.auth;
-
-
-        if (!token) {
-            throw new RError(401, "unauthorized");
-        }
-
-        const user = await userAuth.getUser(token);
 
         const users = await Model.User.findAll({
-            where: {
-                id: { [Op.ne]: user.id }
-            },
             attributes: ['id', 'name']
         });
-        return responseMessage(true, 200, "users are retrieved", { users });
+
+        return responseMessage(true, 200, "users retrieved", { users });
 
     } catch (error) {
 
@@ -105,17 +91,11 @@ const index = async (req) => {
 }
 
 
-const show = async (req) => {
+const show = async (user_id) => {
 
     try {
-        const token = req.headers.auth;
 
-
-        if (!token) {
-            throw new RError(401, "unauthorized");
-        }
-
-        const user = await userAuth.getUser(token);
+        const user = await Model.User.findByPk(user_id, { attributes: ['id', 'name'] });
 
         return responseMessage(true, 200, "user is retrieved", { user });
 
@@ -128,23 +108,12 @@ const show = async (req) => {
 
 
 
-const destroy = async (req) => {
+const destroy = async (user_id) => {
     try {
-        const token = req.headers.auth;
 
-
-        if (!token) {
-            throw new RError(401, "unauthorized");
-        }
-
-        const user = await userAuth.getUser(token);
-
-        await Model.User.destroy({
-            where: {
-                id: user.id
-            },
-        });
-        return responseMessage(true, 200, "account is deleted");
+        const user = await Model.User.findByPk(user_id);
+        user.destroy();
+        return responseMessage(true, 200, "account is deleted",{user})
 
     } catch (error) {
 

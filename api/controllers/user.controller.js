@@ -3,28 +3,37 @@
 const userServices = require("../services/user.services");
 const register = async (req, res)=>{
 
-    const response = await userServices.create(req);
+    const name = req.body.name;
+    let password = req.body.password;
+
+    const response = await userServices.create(name,password);
     res.status(response.statusCode).send(response);
 
 }
 
 const login = async (req, res)=>{
-    const response = await userServices.login(req);
+
+    const {name, password} = req.body;
+
+    const response = await userServices.login(name,password);
     res.status(response.statusCode).send(response);
 }
 
 const getUsers = async (req, res)=>{
-    const response = await userServices.index(req);
+
+    const response = await userServices.index();
     res.status(response.statusCode).send(response);
 }
 
 const showUser = async (req, res)=>{
-    const response = await userServices.show(req);
+    const user_id = req.params.id;
+    const response = await userServices.show(user_id);
     res.status(response.statusCode).send(response);
 }
 
 const deleteUser = async (req, res)=>{
-    const response = await userServices.destroy(req);
+    const user_id = req.user_id
+    const response = await userServices.destroy(user_id);
     res.status(response.statusCode).send(response);
 }
 
