@@ -8,16 +8,16 @@ const { ValidationError } = require('sequelize');
 const User = Model.User;
 
 
-const create = async (req) => {
+const create = async (name,owner_id) => {
     const transaction = await sequelize.transaction();
     try {
 
         const group = await Group.create({
-            "name": req.body.name,
-            "owner_id": req.user_id
+            "name": name,
+            "owner_id": owner_id
         }, { transaction: transaction })
 
-        addUser(group.id,req.user_id)
+        addUser(group.id,owner_id)
 
         await transaction.commit();
 
@@ -47,10 +47,10 @@ const index = async () => {
 
 }
 
-const show = async (req) => {
+const show = async (group_id) => {
     try {
-
-        const group = await Group.findByPk(req.params.id)
+        
+        const group = await Group.findByPk(group_id)
         if (!group) throw new RError(404, "not found")
         return responseMessage(true, 200, "group returned successfully", group)
 
@@ -61,10 +61,10 @@ const show = async (req) => {
     }
 }
 
-const destroy = async (req) => {
+const destroy = async (group_id) => {
     try {
 
-        const group = await Group.findByPk(req.params.id)
+        const group = await Group.findByPk(group_id)
 
         if (!group) throw new RError(404, "not found")
 
