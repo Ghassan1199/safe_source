@@ -9,14 +9,15 @@ const User = Model.User;
 
 
 const create = async (req) => {
+    const transaction = await sequelize.transaction();
     try {
 
-        const transaction = await sequelize.transaction();
         const group = await Group.create({
             "name": req.body.name,
             "owner_id": req.user_id
         }, { transaction: transaction })
 
+        addUser(group.id,req.user_id)
 
         await transaction.commit();
 
@@ -24,6 +25,7 @@ const create = async (req) => {
 
     } catch (err) {
         console.log(err)
+        transaction.rollback();
         return responseMessage(false, 400, "couldn`t create the group", err)
 
     }
