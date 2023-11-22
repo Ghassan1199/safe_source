@@ -8,7 +8,7 @@ const { ValidationError } = require('sequelize');
 const User = Model.User;
 
 
-const create = async (name,owner_id) => {
+const create = async (name, owner_id) => {
     const transaction = await sequelize.transaction();
     try {
 
@@ -17,7 +17,7 @@ const create = async (name,owner_id) => {
             "owner_id": owner_id
         }, { transaction: transaction })
 
-        addUser(group.id,owner_id)
+        addUser(group.id, owner_id)
 
         await transaction.commit();
 
@@ -49,7 +49,7 @@ const index = async () => {
 
 const show = async (group_id) => {
     try {
-        
+
         const group = await Group.findByPk(group_id)
         if (!group) throw new RError(404, "not found")
         return responseMessage(true, 200, "group returned successfully", group)
@@ -61,14 +61,14 @@ const show = async (group_id) => {
     }
 }
 
-const destroy = async (group_id) => {
+const destroy = async (group_id,owner_id) => {
     try {
 
         const group = await Group.findByPk(group_id)
 
         if (!group) throw new RError(404, "not found")
 
-        if (req.user_id != group.owner_id) throw new RError(403, "you are not autherized")
+        if (owner_id != group.owner_id) throw new RError(403, "you are not autherized")
 
         await group.destroy();
 
@@ -82,32 +82,61 @@ const destroy = async (group_id) => {
     }
 }
 
-const addUser = async (group_id,user_id) => {
+const addUser = async (group_id, user_id) => {
     try {
         const group = await Group.findByPk(group_id);
-        if(!group) throw new RError(404,"group not found");
+        if (!group) throw new RError(404, "group not found");
         const user = await User.findByPk(user_id);
-        if(!user) throw new RError(404,"user not found");
+        if (!user) throw new RError(404, "user not found");
 
         const group_user = await GroupUser.create({
-            groupId:group_id,
-            userId : user_id
+            groupId: group_id,
+            userId: user_id
         });
 
-        return responseMessage(true,200,"user add successfully",group_user);
+        return responseMessage(true, 200, "user add successfully", group_user);
 
     } catch (error) {
-        
+
         let statusCode = error.statusCode || 500;
 
-        if(error instanceof ValidationError) statusCode = 400
+        if (error instanceof ValidationError) statusCode = 400
 
         return responseMessage(false, statusCode, error.message);
 
     }
 }
 
-const removeUser = (req) => {
+const removeUser = async (user_id, group_id) => {
+    try {
+
+        const group = await Group.findByPk(group_id);
+
+        if (!group) throw new RError(404, "group not found");
+
+        if (group.owner_id == user_id) throw new RError(400, "can`t remove the group owner ");
+
+        const group_user = await GroupUser.findOne({
+            where: {
+                userId: user_id,
+                groupId: group_id
+            }
+        });
+
+        if (!group_user) throw new RError(404, "user not found");
+
+        group_user.destroy();
+
+        return responseMessage(true, 200, "user deleted successfully", group_user);
+
+    } catch (error) {
+
+        let statusCode = error.statusCode || 500;
+
+        if (error instanceof ValidationError) statusCode = 400
+
+        return responseMessage(false, statusCode, error.message);
+    }
 
 }
 

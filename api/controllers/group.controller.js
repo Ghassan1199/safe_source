@@ -20,8 +20,9 @@ const showGroup = async (req, res) => {
 }
 
 const destroyGroup = async (req, res) => {
-    const group_id = req.body.group_id
-    const response = await groupServices.destroy(group_id)
+    const group_id = req.params.id
+    const owner_id = req.user_id
+    const response = await groupServices.destroy(group_id,owner_id)
     return res.status(response.statusCode).json(response)
 }
 
@@ -33,7 +34,12 @@ const addUserToGroup = async (req, res) => {
 
 }
 
-const removeUserToGroup = (req, res) => {
+const removeUserFromGroup = async (req, res) => {
+    const { group_id, user_id } = req.params;
+
+    const response = await groupServices.removeUser(user_id, group_id)
+
+    return res.status(response.statusCode).json(response)
 
 }
 
@@ -44,6 +50,6 @@ module.exports = {
     showGroup,
     destroyGroup,
     addUserToGroup,
-    removeUserToGroup
+    removeUserFromGroup
 
 }
