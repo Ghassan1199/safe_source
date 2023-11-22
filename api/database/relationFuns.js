@@ -1,6 +1,7 @@
-function setHasMany(modelA, modelB){
-    modelA.hasMany(modelB);
-    modelB.belongsTo(modelA);
+function setHasMany(modelA, modelB,foreignKey=null){
+    
+    modelA.hasMany(modelB,{foreignKey:foreignKey});
+    modelB.belongsTo(modelA ,{foreignKey:foreignKey});
 }
 
 function setBelongsToMany(modelA, modelB, modelCName){
