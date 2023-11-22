@@ -2,8 +2,10 @@ const { Model } = require('../database/db')
 const responseMessage = require('../helpers/responseHandler')
 const RError = require('../helpers/error');
 const Group = Model.Group;
-const { getUser } = require('../middlewares/auth')
+const GroupUser = Model.GroupUser;
 const { sequelize } = require('../database/connection');
+const { ValidationError } = require('sequelize');
+const User = Model.User;
 
 
 const create = async (req) => {
@@ -78,8 +80,29 @@ const destroy = async (req) => {
     }
 }
 
-const addUser = (req) => {
-    
+const addUser = async (group_id,user_id) => {
+    try {
+        const group = await Group.findByPk(group_id);
+        if(!group) throw new RError(404,"group not found");
+        const user = await User.findByPk(user_id);
+        if(!user) throw new RError(404,"user not found");
+
+        const group_user = await GroupUser.create({
+            groupId:group_id,
+            userId : user_id
+        });
+
+        return responseMessage(true,200,"user add successfully",group_user);
+
+    } catch (error) {
+        
+        let statusCode = error.statusCode || 500;
+
+        if(error instanceof ValidationError) statusCode = 400
+
+        return responseMessage(false, statusCode, error.message);
+
+    }
 }
 
 const removeUser = (req) => {

@@ -21,8 +21,9 @@ const destroyGroup = async (req, res)=>{
     return res.status(response.statusCode).json(response)
 }
 
-const addUserToGroup = (req, res)=>{
-    
+const addUserToGroup = async (req, res)=>{
+    const response = await groupServices.addUser(req.body.group_id,req.body.user_id)
+    return res.status(response.statusCode).json(response)
 }
 
 const removeUserToGroup = (req, res)=>{
