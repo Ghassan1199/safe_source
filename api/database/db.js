@@ -1,4 +1,4 @@
-const {sequelize, DataTypes} = require("./connection");
+const {sequelize, DataTypes, Op} = require("./connection");
 
 const {setHasMany, setBelongsToMany} = require("./relationFuns");
 
@@ -34,6 +34,6 @@ setHasMany(Model.File, Model.BFR);
 
 
 
-module.exports = {connection, Model};
+module.exports = {connection, Model, Op};
 
     

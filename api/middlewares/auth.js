@@ -2,7 +2,7 @@ require('dotenv').config()
 
 const jwt = require("jsonwebtoken");
 
-const Model = require("../database/db");
+const {Model} = require("../database/db");
 
 
 const RError = require("../helpers/error");
@@ -14,7 +14,7 @@ const checkUser = async (req, res, next) => {
 
     try {
 
-        const token = req.headers.authorization;
+        const token = req.headers.auth;
 
 
         await getUser(token);
@@ -33,6 +33,7 @@ const checkUser = async (req, res, next) => {
 
 
 const getUser = async (token) => {
+    
 
     if (!token) {
         throw new RError(401, "unauthorized");
@@ -42,10 +43,11 @@ const getUser = async (token) => {
 
     const decodedToken = jwt.verify(token, process.env.SECRET_KEY);
 
-    const _id = decodedToken.payload;
+
+    const id = decodedToken.id;
 
 
-    const user = await Model.User.findById(_id).select("_id name");
+    const user = await Model.User.findByPk(id,{attributes: ['id', 'name']});
 
 
     if (user == null) {

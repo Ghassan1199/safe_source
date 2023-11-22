@@ -1,5 +1,7 @@
 
-const Model = require("../../database/db");
+const bcrypt = require("bcrypt");
+const RError = require("../../helpers/error");
+const {Model} = require("../../database/db");
 const loginValidator = async (req) => {
 
 
@@ -9,7 +11,7 @@ const loginValidator = async (req) => {
         throw new RError(400, "All fields are required");
     }
 
-    const user = await Model.User.findOne({ name });
+    const user = await Model.User.findOne({where: {name} });
 
     if (user == null) {
 
