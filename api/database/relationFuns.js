@@ -1,6 +1,9 @@
 function setHasMany(modelA, modelB,foreignKey=null){
     
-    modelA.hasMany(modelB,{foreignKey:foreignKey});
+    modelA.hasMany(modelB,{
+        foreignKey:foreignKey,
+        onDelete: 'cascade'
+    });
     modelB.belongsTo(modelA ,{foreignKey:foreignKey});
 }
 

@@ -4,7 +4,8 @@ require('dotenv').config();
 
 const {connection} = require("./api/database/db");
 
-const router = require("./api/router");
+const userRoutes = require("./api/routes/user.routes");
+const groupRoutes= require("./api/routes/group.routes");
 
 const bodyParser = require("body-parser");
 
@@ -20,5 +21,6 @@ app.listen(3000,async ()=>{
     
 });
 
-app.use("/users", router);
+app.use("/users", userRoutes);
+app.use("/groups",groupRoutes);
 

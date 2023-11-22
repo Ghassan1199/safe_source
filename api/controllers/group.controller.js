@@ -3,19 +3,22 @@ const groupServices = require('../services/group.services')
 
 const createGroup = async (req, res)=>{
     const response = await groupServices.create(req)
-    return res.status(response.status).json(response)
+    return res.status(response.statusCode).json(response)
 }
 
-const index = (_, res)=>{
-    
+const index = async (_, res)=>{
+    const response = await groupServices.index()
+    return res.status(response.statusCode).json(response)
 }
 
-const showGroup = (req, res)=>{
-    
+const showGroup = async (req, res)=>{
+    const response = await groupServices.show(req)
+    return res.status(response.statusCode).json(response)
 }
 
-const destroyGroup = (req, res)=>{
-    
+const destroyGroup = async (req, res)=>{
+    const response = await groupServices.destroy(req)
+    return res.status(response.statusCode).json(response)
 }
 
 const addUserToGroup = (req, res)=>{
@@ -24,4 +27,15 @@ const addUserToGroup = (req, res)=>{
 
 const removeUserToGroup = (req, res)=>{
     
+}
+
+
+module.exports = {
+    createGroup,
+    index,
+    showGroup,
+    destroyGroup,
+    addUserToGroup,
+    removeUserToGroup
+
 }

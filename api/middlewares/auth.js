@@ -17,8 +17,8 @@ const checkUser = async (req, res, next) => {
         const token = req.headers.auth;
 
 
-        await getUser(token);
-
+        const user = await getUser(token);
+        req.user_id=user.id
 
         next();
 
@@ -59,5 +59,6 @@ const getUser = async (token) => {
     return user;
 
 }
+
 
 module.exports = {checkUser, getUser};
