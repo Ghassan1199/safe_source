@@ -7,6 +7,7 @@ const {connection} = require("./api/database/db");
 
 const userRoutes = require("./api/routes/user.routes");
 const groupRoutes= require("./api/routes/group.routes");
+const fileRoutes = require('./api/routes/files.routes');
 
 const bodyParser = require("body-parser");
 
@@ -26,4 +27,5 @@ app.listen(3000,async ()=>{
 
 app.use("/users", userRoutes);
 app.use("/groups",groupRoutes);
+app.use('/files',fileRoutes);
 

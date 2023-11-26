@@ -18,7 +18,7 @@ setHasMany(Model.User, Model.BFR);
 setHasMany(Model.User,Model.Group,"owner_id")
 
 
-setHasMany(Model.User, Model.File);
+setHasMany(Model.User, Model.File,'owner_id');
 
 
 setBelongsToMany(Model.File, Model.Group,'group_file');

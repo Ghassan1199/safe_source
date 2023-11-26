@@ -8,6 +8,7 @@ const createGroup = async (req, res) => {
 
     const response = await groupServices.create(name,owner_id);
     return res.status(response.statusCode).json(response);
+    
 }
 
 const index = async (_, res) => {
