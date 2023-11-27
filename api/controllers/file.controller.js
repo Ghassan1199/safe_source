@@ -3,9 +3,14 @@ const file_services = require('../services/file.services');
 
 const add_file = async (req, res) => {
     const path = req.file.path;
+
     const { file_name, check, public } = req.body;
+
     const owner_id = req.user_id;
-    const response = await file_services.create(file_name, path, owner_id, check, public)
+    const group_id = req.body.group_id;
+
+    const response = await file_services.create(file_name, path, owner_id, check, public,group_id)
+
     return res.status(response.statusCode).json(response);
 
 }

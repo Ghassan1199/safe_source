@@ -9,11 +9,14 @@ const { sequelize } = require('../database/connection');
 const { ValidationError, DATE } = require('sequelize');
 const File = Model.File;
 
-//TODO must add the group_id so the file is added to the group ; 
-const create = async (file_name, path, owner_id, check, public) => {
+//TODO must add the validation to check if the user is in the same group or not
+const create = async (file_name, path, owner_id, check, public,group_id) => {
     try {
 
         const file = await File.create({ name: file_name, path, date: new Date(), check, public, owner_id });
+        const group_file = await GroupFile.create({groupId:group_id,fileId:file.id});
+        console.log(group_file);
+
         return responseMessage(true, 200, "file added Successfully", file);
 
     } catch (error) {
@@ -54,7 +57,7 @@ const remove = async (file_id, owner_id) => {
 
 }
 
-//TODO should return only the files_id
+//TODO should return only the files_id and the user should be in the same group
 const index = async (group_id = null) => {
     try {
         if (!group_id) throw new RError(400, "no group_id is givin");

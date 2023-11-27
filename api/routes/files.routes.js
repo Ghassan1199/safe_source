@@ -6,12 +6,21 @@ const auth = require('../middlewares/auth')
 
 const file_controller = require('../controllers/file.controller');
 
-
-router.post('/add', auth.checkUser, upload(), file_controller.add_file);
-router.delete('/delete/:file_id', auth.checkUser, file_controller.remove_file);
-router.get('/index/:group_id', auth.checkUser, file_controller.show_files);
+router.use(auth.checkUser);
 
 
+router.post('/add', upload(), file_controller.add_file);
+router.delete('/delete/:file_id', file_controller.remove_file);
+router.get('/index/:group_id', file_controller.show_files);
+
+router.use((err, req, res, next) => {
+    if (err) {
+        console.error(err.message);
+        res.status(400).json({ error: err.message });
+    } else {
+        next();
+    }
+});
 
 
 
