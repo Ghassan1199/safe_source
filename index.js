@@ -24,6 +24,14 @@ app.listen(3000,async ()=>{
     });
     
 });
+app.use((err, req, res, next) => {
+    if (err) {
+        console.error(err.message);
+        res.status(400).json({ error: err.message });
+    } else {
+        next();
+    }
+});
 
 app.use("/users", userRoutes);
 app.use("/groups",groupRoutes);

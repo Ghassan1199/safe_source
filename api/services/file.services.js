@@ -4,11 +4,12 @@ const RError = require('../helpers/error');
 const Group = Model.Group;
 const fs = require('fs');
 const GroupUser = Model.GroupUser;
+const GroupFile = Model.GroupFile;
 const { sequelize } = require('../database/connection');
 const { ValidationError, DATE } = require('sequelize');
 const File = Model.File;
 
-
+//TODO must add the group_id so the file is added to the group ; 
 const create = async (file_name, path, owner_id, check, public) => {
     try {
 
@@ -53,12 +54,33 @@ const remove = async (file_id, owner_id) => {
 
 }
 
+//TODO should return only the files_id
 const index = async (group_id = null) => {
+    try {
+        if (!group_id) throw new RError(400, "no group_id is givin");
+        const group_files = await GroupFile.findAll({
+            where: {
+                groupId: group_id
+            }
+        });
+
+        if (group_files.length == 0) throw new RError(404, "no files found in this group");
+
+        return responseMessage(true, 200, "files_id is sent", group_files);
+
+    } catch (error) {
+        let statusCode = error.statusCode || 500;
+
+        if (error instanceof ValidationError) statusCode = 400
+
+        return responseMessage(false, statusCode, error.message);
+
+    }
 }
 
 //user and file must be in the same group or the file must be public 
 //the user must be the one who checked the file in
-const update = async (file_id,user_id) => {
+const update = async (file_id, user_id) => {
 
 }
 
@@ -77,6 +99,7 @@ module.exports = {
     create,
     remove,
     update,
+    index,
     check_in,
     check_out
 }

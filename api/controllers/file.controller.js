@@ -22,8 +22,18 @@ const remove_file = async (req, res) => {
 
 }
 
+const show_files = async (req,res)=>{
+
+    const group_id = req.params.group_id;
+
+    const response = await file_services.index(group_id);
+    return res.status(response.statusCode).json(response);
+
+}
+
 
 module.exports = {
     add_file,
-    remove_file
+    remove_file,
+    show_files
 }
