@@ -14,7 +14,7 @@ Model.User = require("../models/user")(sequelize, DataTypes);
 
 
 
-setHasMany(Model.User, Model.BFR);
+
 setHasMany(Model.User,Model.Group,"owner_id")
 
 
@@ -28,9 +28,11 @@ setHasMany(Model.User, Model.GroupUser);
 
 setBelongsToMany(Model.User, Model.Group,Model.GroupUser);
 
-setHasMany(Model.Group, Model.BFR);
+setHasMany(Model.User, Model.BFR,'user_id');
 
-setHasMany(Model.File, Model.BFR);
+setHasMany(Model.Group, Model.BFR,'group_id');
+
+setHasMany(Model.File, Model.BFR,'file_id');
 
 
 

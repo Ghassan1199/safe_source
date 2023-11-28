@@ -62,8 +62,9 @@ const login = async (name, password) => {
         const user = await userValidation.loginValidator(name, password);
 
         const token = jwt.sign({ id: user.id }, process.env.SECRET_KEY, { expiresIn: "1h" });
+        const user_id = user.id
 
-        return responseMessage(true, 200, "token is generated", { token });
+        return responseMessage(true, 200, "token is generated", { token,user_id} );
 
 
     } catch (error) {

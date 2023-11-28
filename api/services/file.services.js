@@ -7,7 +7,9 @@ const GroupUser = Model.GroupUser;
 const GroupFile = Model.GroupFile;
 const { sequelize } = require('../database/connection');
 const { ValidationError, DATE } = require('sequelize');
+const booked_file_report = require('../models/booked_file_report');
 const File = Model.File;
+const Booked_file = Model.BFR;
 
 const create = async (file_name, path, owner_id, check, public) => {
     try {
@@ -55,7 +57,7 @@ const remove = async (file_id, owner_id) => {
 }
 
 
-const index = async (owner_id = null, group_id = null, public = true) => {
+const index = async (owner_id = null, group_id = null, public = true, check = false) => {
     try {
 
         const where = {};
@@ -109,15 +111,15 @@ const shareWithGroup = async (file_id, owner_id, group_id) => {
         if (!file) throw new RError(404, "file not found");
 
         if (file.owner_id != owner_id) throw new RError(403, "you are not the file owner");
-        
+
         const group_user = await GroupUser.findOne({
-            where:{
-                userId:owner_id,
-                groupId:group_id
+            where: {
+                userId: owner_id,
+                groupId: group_id
             }
         });
-        if(!group_user) throw new RError(403,"you are not in the group");
-        
+        if (!group_user) throw new RError(403, "you are not in the group");
+
         await GroupFile.create({
             groupId: group_id,
             fileId: file_id
@@ -144,14 +146,121 @@ const update = async (file_id, user_id) => {
 
 }
 
-//the file must be checked out
-//the user should be in the same group
-const check_in = async (user_id, file_id) => {
+
+const check_in = async (user_id, file_id, group_id) => {
+
+    try {
+
+        const file = await File.findByPk(file_id);
+        if (!file) throw new RError(404, "file not found");
+
+        if (file.check) throw new RError(400, "file is checked before");
+
+        if (file.owner_id == user_id) {
+            file.check = true;
+            await Booked_file.create({ group_id:group_id,user_id: user_id, file_id: file_id,check_in_date:new Date() });
+            await file.save();
+
+            return responseMessage(true, 200, "file has been checked in successfully", file);
+        }
+
+        const group_user = await GroupUser.findOne({
+            where: {
+                userId: user_id,
+                groupId: group_id
+            }
+        });
+
+        if (!group_user) throw new RError(403, "you are not in the group");
+
+        const file_group = await GroupFile.findOne({
+            where: {
+                fileId: file_id,
+                groupId: group_id
+            }
+        });
+
+        if (!file_group) throw new RError(403, "the file is not in the group");
+
+        file.check = true;
+        await file.save();
+
+        return responseMessage(true, 200, "file has been checked in successfully", file);
+
+
+    } catch (error) {
+
+        console.log(error)
+        let statusCode = error.statusCode || 500;
+
+        if (error instanceof ValidationError) statusCode = 400
+
+        return responseMessage(false, statusCode, error.message);
+
+    }
+
 
 }
 
-//the file must be checked in and the user is the one whos checked in
+
 const check_out = async (user_id, file_id) => {
+    try {
+
+        const file = await File.findByPk(file_id);
+        if (!file) throw new RError(404, "file not found");
+
+        if (!file.check) throw new RError(400, "file is already checked out before");
+
+        if (file.owner_id == user_id) {
+            file.check = false;
+            await file.save();
+            return responseMessage(true, 200, "file has been checked out  successfully", file);
+        }
+
+        const group_user = await GroupUser.findOne({
+            where: {
+                userId: user_id,
+                groupId: group_id
+            }
+        });
+
+        if (!group_user) throw new RError(403, "you are not in the group");
+
+        const file_group = await GroupFile.findOne({
+            where: {
+                fileId: file_id,
+                groupId: group_id
+            }
+        });
+
+        if (!file_group) throw new RError(403, "the file is not in the group");
+
+
+        const booked_file = await Booked_file.findOne({
+            where:{
+                user_id : user_id,
+                file_id : file_id,
+                group_id : group_id
+            }
+        });
+        if(!booked_file) throw new RError(403, "you are not the one who checked in");
+        await booked_file.destroy();
+
+        file.check = false;
+        await file.save();
+        return responseMessage(true, 200, "file has been checked out successfully", file);
+
+
+    } catch (error) {
+
+        console.log(error)
+        let statusCode = error.statusCode || 500;
+
+        if (error instanceof ValidationError) statusCode = 400
+
+        return responseMessage(false, statusCode, error.message);
+
+    }
 
 }
 

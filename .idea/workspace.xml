@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="55140060-9717-4ec8-b52e-c43b325881f4" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/api/controllers/file.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/controllers/file.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/database/db.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/database/db.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/routes/files.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/routes/files.routes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/services/file.services.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/services/file.services.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/services/user.services.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/services/user.services.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="2YnLU2lN1AZk74UvFV8TLcLKea1" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/Ghassan/Desktop/Uni/Internet_Application",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="55140060-9717-4ec8-b52e-c43b325881f4" name="Changes" comment="" />
+      <created>1701156409889</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1701156409889</updated>
+      <workItem from="1701156410794" duration="63000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
