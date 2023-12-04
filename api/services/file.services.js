@@ -144,6 +144,33 @@ const shareWithGroup = async (file_id, owner_id, group_id) => {
 //the user must be the one who checked the file in
 const update = async (file_id, user_id) => {
 
+    const file = await File.findByPk(file_id);
+
+
+    try {
+
+        if (!file) throw new RError(404, "file not found");
+    
+        const BF = await Booked_file.findOne({ 
+            where:{
+            user_id: user_id, file_id: file_id }
+        }
+            );
+    
+        if (!BF) throw new RError(403, "You Are Not Allowed");
+
+        return responseMessage(true, 200, "file updated Successfully", file);
+
+    } catch (error) {
+        let statusCode = error.statusCode || 500;
+if(file){if(fs.existsSync(file.path)) fs.unlinkSync(file.path);}
+        if (error instanceof ValidationError) statusCode = 400
+
+        return responseMessage(false, statusCode, error.message);
+
+    }
+
+
 }
 
 
@@ -182,6 +209,7 @@ const check_in = async (user_id, file_id, group_id) => {
 
         if (!file_group) throw new RError(403, "the file is not in the group");
 
+        await Booked_file.create({ group_id:group_id,user_id: user_id, file_id: file_id,check_in_date:new Date() });
         file.check = true;
         await file.save();
 

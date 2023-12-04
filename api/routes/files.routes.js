@@ -15,6 +15,8 @@ router.get('/index', file_controller.show_files);
 router.post('/share_with_group', file_controller.shareWithGroup);
 router.get('/check_in/:group_id/:file_id', file_controller.check_in)
 router.get('/check_out/:group_id/:file_id', file_controller.check_out)
+router.get('/update_file/:file_id', file_controller.update_file,upload(false));
+
 
 router.use((err, req, res, next) => {
     if (err) {
@@ -26,4 +28,4 @@ router.use((err, req, res, next) => {
 });
 
 
-module.exports = router;
+module.exports = router; 

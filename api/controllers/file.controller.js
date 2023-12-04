@@ -68,11 +68,22 @@ const check_out = async (req, res) => {
     return res.status(response.statusCode).json(response);
 }
 
+const update_file = async (req, res) => {
+    const user_id = req.user_id;
+    const file_id = req.params.file_id;
+    
+    const response = await file_services.update(file_id, user_id);
+    return res.status(response.statusCode).json(response);
+}
+
+
+
 module.exports = {
     add_file,
     remove_file,
     show_files,
     shareWithGroup,
     check_in,
-    check_out
+    check_out,
+    update_file
 }
