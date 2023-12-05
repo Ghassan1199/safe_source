@@ -11,7 +11,7 @@ const booked_file_report = require('../models/booked_file_report');
 const File = Model.File;
 const Booked_file = Model.BFR;
 
-const create = async (file_name, path, owner_id, check, public) => {
+const create = async (file_name, path, owner_id, check, public = false) => {
     try {
 
         const file = await File.create({ name: file_name, path, date: new Date(), check, public, owner_id });
@@ -146,24 +146,25 @@ const update = async (file_id, user_id) => {
 
     const file = await File.findByPk(file_id);
 
-
     try {
 
         if (!file) throw new RError(404, "file not found");
-    
-        const BF = await Booked_file.findOne({ 
-            where:{
-            user_id: user_id, file_id: file_id }
+
+        const BF = await Booked_file.findOne({
+            where: {
+                user_id: user_id, file_id: file_id,
+                check_out_date:null
+            }
         }
-            );
-    
+        );
+
         if (!BF) throw new RError(403, "You Are Not Allowed");
 
-        return responseMessage(true, 200, "file updated Successfully", file);
+        return responseMessage(true, 200, "file updated Successfully", {file});
 
     } catch (error) {
         let statusCode = error.statusCode || 500;
-if(file){if(fs.existsSync(file.path)) fs.unlinkSync(file.path);}
+        if (file) { if (fs.existsSync(file.path)) fs.unlinkSync(file.path); }
         if (error instanceof ValidationError) statusCode = 400
 
         return responseMessage(false, statusCode, error.message);
@@ -185,7 +186,7 @@ const check_in = async (user_id, file_id, group_id) => {
 
         if (file.owner_id == user_id) {
             file.check = true;
-            await Booked_file.create({ group_id:group_id,user_id: user_id, file_id: file_id,check_in_date:new Date() });
+            await Booked_file.create({ group_id: group_id, user_id: user_id, file_id: file_id, check_in_date: new Date() });
             await file.save();
 
             return responseMessage(true, 200, "file has been checked in successfully", file);
@@ -209,7 +210,7 @@ const check_in = async (user_id, file_id, group_id) => {
 
         if (!file_group) throw new RError(403, "the file is not in the group");
 
-        await Booked_file.create({ group_id:group_id,user_id: user_id, file_id: file_id,check_in_date:new Date() });
+        await Booked_file.create({ group_id: group_id, user_id: user_id, file_id: file_id, check_in_date: new Date() });
         file.check = true;
         await file.save();
 
@@ -237,42 +238,18 @@ const check_out = async (user_id, file_id) => {
         const file = await File.findByPk(file_id);
         if (!file) throw new RError(404, "file not found");
 
-        if (!file.check) throw new RError(400, "file is already checked out before");
-
-        if (file.owner_id == user_id) {
-            file.check = false;
-            await file.save();
-            return responseMessage(true, 200, "file has been checked out  successfully", file);
-        }
-
-        const group_user = await GroupUser.findOne({
-            where: {
-                userId: user_id,
-                groupId: group_id
-            }
-        });
-
-        if (!group_user) throw new RError(403, "you are not in the group");
-
-        const file_group = await GroupFile.findOne({
-            where: {
-                fileId: file_id,
-                groupId: group_id
-            }
-        });
-
-        if (!file_group) throw new RError(403, "the file is not in the group");
-
 
         const booked_file = await Booked_file.findOne({
-            where:{
-                user_id : user_id,
-                file_id : file_id,
-                group_id : group_id
+            where: {
+                user_id: user_id,
+                file_id: file_id,
+                check_out_date :null
             }
         });
-        if(!booked_file) throw new RError(403, "you are not the one who checked in");
-        await booked_file.destroy();
+
+        if (!booked_file) throw new RError(403, "you are not the one who checked in");
+        booked_file.check_out_date = new Date();
+        await booked_file.save();
 
         file.check = false;
         await file.save();

@@ -12,7 +12,12 @@ const upload = (keep = true) => {
                 cb(null, `./files`)
             },
             filename: (req, file, cb) => {
-                cb(null, req.body.file_name + path.extname(file.originalname))
+                if (req.body.file_name)
+                    cb(null, req.body.file_name + path.extname(file.originalname))
+                else {
+                    const file_name = req.k.data.file.name;
+                    cb(null,file_name + path.extname(file.originalname))
+                }
             },
         });
 
@@ -20,12 +25,11 @@ const upload = (keep = true) => {
     const fileFilter = (req, file, cb) => {
         const targetPath = path.join('./files', req.body.file_name + path.extname(file.originalname));
         // Check if the file with the same name already exists
-       if (keep) {
-            if (fs.existsSync(targetPath)) {
+
+        if (fs.existsSync(targetPath)) {
             // Reject the file upload
-            return cb(new RError(400,'File with the same name already exists.'));
+            return cb(new RError(400, 'File with the same name already exists.'));
         }
-    }
 
         // Accept the file upload
         cb(null, true);
