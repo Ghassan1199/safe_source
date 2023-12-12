@@ -11,6 +11,10 @@ const booked_file_report = require('../models/booked_file_report');
 const File = Model.File;
 const Booked_file = Model.BFR;
 
+const mutexServices = require("./mutex.service");
+
+
+
 const create = async (file_name, path, owner_id, check, public = false) => {
     try {
 
@@ -32,7 +36,6 @@ const remove = async (file_id, owner_id) => {
 
     try {
         const file = await File.findByPk(file_id);
-        console.log(file)
         if (file == null) throw new RError(404, "not found");
 
         if (file.owner_id != owner_id) throw new RError(403, "not authorized");
@@ -177,20 +180,19 @@ const update = async (file_id, user_id) => {
 
 const check_in = async (user_id, file_id, group_id) => {
 
-    try {
+    const mutex = mutexServices.getFileMutex(file_id);
 
-        const file = await File.findByPk(file_id);
+try {
+
+    await mutex.acquire();
+   const file = await File.findByPk(file_id);
         if (!file) throw new RError(404, "file not found");
+  
+
+     
 
         if (file.check) throw new RError(400, "file is checked before");
 
-        if (file.owner_id == user_id) {
-            file.check = true;
-            await Booked_file.create({ group_id: group_id, user_id: user_id, file_id: file_id, check_in_date: new Date() });
-            await file.save();
-
-            return responseMessage(true, 200, "file has been checked in successfully", file);
-        }
 
         const group_user = await GroupUser.findOne({
             where: {
@@ -210,6 +212,18 @@ const check_in = async (user_id, file_id, group_id) => {
 
         if (!file_group) throw new RError(403, "the file is not in the group");
 
+
+
+
+        if (file.owner_id == user_id) {
+            file.check = true;
+            await Booked_file.create({ group_id: group_id, user_id: user_id, file_id: file_id, check_in_date: new Date() });
+            await file.save();
+
+            return responseMessage(true, 200, "file has been checked in successfully", file);
+        }
+
+
         await Booked_file.create({ group_id: group_id, user_id: user_id, file_id: file_id, check_in_date: new Date() });
         file.check = true;
         await file.save();
@@ -219,13 +233,16 @@ const check_in = async (user_id, file_id, group_id) => {
 
     } catch (error) {
 
-        console.log(error)
         let statusCode = error.statusCode || 500;
 
         if (error instanceof ValidationError) statusCode = 400
+        
 
         return responseMessage(false, statusCode, error.message);
 
+    } finally{
+       await mutex.release();
+       mutexServices.deleteFileMutex(file_id);
     }
 
 

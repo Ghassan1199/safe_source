@@ -51,6 +51,7 @@ const shareWithGroup = async (req, res) => {
 }
 
 const check_in = async (req, res) => {
+    
     const user_id = req.user_id;
     const file_id = req.params.file_id;
     const group_id = req.params.group_id

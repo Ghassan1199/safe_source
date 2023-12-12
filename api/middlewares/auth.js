@@ -15,6 +15,7 @@ const checkUser = async (req, res, next) => {
     try {
 
         const token = req.headers.auth;
+        
 
         const user = await getUser(token);
         req.user_id = user.id
@@ -22,7 +23,7 @@ const checkUser = async (req, res, next) => {
         next();
 
     } catch (error) {
-        console.log(error)
+       
         const statusCode = error.statusCode || 500;
         const response = responseMessage(false, statusCode, error.message);
 
