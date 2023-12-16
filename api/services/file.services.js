@@ -11,8 +11,10 @@ const booked_file_report = require('../models/booked_file_report');
 const File = Model.File;
 const Booked_file = Model.BFR;
 
-const mutexServices = require("./mutex.service");
+const { Mutex } = require('async-mutex');
+const chickInValidator = require('../middlewares/validation/checkValidation');
 
+const mutex = new Mutex();
 
 
 const create = async (file_name, path, owner_id, check, public = false) => {
@@ -131,7 +133,6 @@ const shareWithGroup = async (file_id, owner_id, group_id) => {
         return responseMessage(true, 200, "file shared with group successfully");
 
     } catch (error) {
-        console.log(error)
         let statusCode = error.statusCode || 500;
 
         if (error instanceof ValidationError) statusCode = 400
@@ -143,8 +144,6 @@ const shareWithGroup = async (file_id, owner_id, group_id) => {
 
 }
 
-//user and file must be in the same group or the file must be public 
-//the user must be the one who checked the file in
 const update = async (file_id, user_id) => {
 
     const file = await File.findByPk(file_id);
@@ -178,79 +177,66 @@ const update = async (file_id, user_id) => {
 }
 
 
-const check_in = async (user_id, file_id, group_id) => {
+const check_in = async (user_id, file_ides, group_id)=>{
 
-    const mutex = mutexServices.getFileMutex(file_id);
 
-try {
+    let transaction;
+   
+    try {
 
-    await mutex.acquire();
-   const file = await File.findByPk(file_id);
+    
+        await mutex.acquire();
+    
+        transaction = await sequelize.transaction();
+
+    for(const file_id of file_ides){
+
+        await chickInValidator(user_id, group_id, file_id);
+
+        const file = await File.findByPk(file_id);
+    
         if (!file) throw new RError(404, "file not found");
-  
-
-     
-
-        if (file.check) throw new RError(400, "file is checked before");
 
 
-        const group_user = await GroupUser.findOne({
-            where: {
-                userId: user_id,
-                groupId: group_id
-            }
-        });
+        if (file.check) throw new RError(400, "checked before");
 
-        if (!group_user) throw new RError(403, "you are not in the group");
-
-        const file_group = await GroupFile.findOne({
-            where: {
-                fileId: file_id,
-                groupId: group_id
-            }
-        });
-
-        if (!file_group) throw new RError(403, "the file is not in the group");
-
-
-
-
-        if (file.owner_id == user_id) {
-            file.check = true;
-            await Booked_file.create({ group_id: group_id, user_id: user_id, file_id: file_id, check_in_date: new Date() });
-            await file.save();
-
-            return responseMessage(true, 200, "file has been checked in successfully", file);
-        }
-
-
-        await Booked_file.create({ group_id: group_id, user_id: user_id, file_id: file_id, check_in_date: new Date() });
+        await Booked_file.create({ group_id: group_id, user_id: user_id, file_id: file_id, check_in_date: new Date() },{transaction});
         file.check = true;
-        await file.save();
+        await file.save({transaction});
 
-        return responseMessage(true, 200, "file has been checked in successfully", file);
-
-
-    } catch (error) {
-
-        let statusCode = error.statusCode || 500;
-
-        if (error instanceof ValidationError) statusCode = 400
-        
-
-        return responseMessage(false, statusCode, error.message);
-
-    } finally{
-       await mutex.release();
-       mutexServices.deleteFileMutex(file_id);
     }
-
+        
+            await transaction.commit();
+    
+            return responseMessage(true, 200, "checked in");
+    
+        } catch (error) {
+    
+            let statusCode = error.statusCode || 500;
+    
+            if (error instanceof ValidationError) statusCode = 400
+            
+    
+            if(transaction){
+                await transaction.rollback();
+            }
+    
+            return responseMessage(false, statusCode, error.message);
+    
+        } finally{
+            mutex.release();
+    
+        }
 
 }
 
 
 const check_out = async (user_id, file_id) => {
+   
+    let transaction;
     try {
+
+        transaction = await sequelize.transaction();
 
         const file = await File.findByPk(file_id);
         if (!file) throw new RError(404, "file not found");
@@ -270,15 +256,16 @@ const check_out = async (user_id, file_id) => {
 
         file.check = false;
         await file.save();
+        await transaction.commit();
         return responseMessage(true, 200, "file has been checked out successfully", file);
 
 
     } catch (error) {
 
-        console.log(error)
         let statusCode = error.statusCode || 500;
 
         if (error instanceof ValidationError) statusCode = 400
+        await transaction.rollback();
 
         return responseMessage(false, statusCode, error.message);
 

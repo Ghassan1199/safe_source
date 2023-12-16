@@ -53,10 +53,10 @@ const shareWithGroup = async (req, res) => {
 const check_in = async (req, res) => {
     
     const user_id = req.user_id;
-    const file_id = req.params.file_id;
+    const file_ides = req.query.file_ides.split(',');
     const group_id = req.params.group_id
 
-    const response = await file_services.check_in(user_id, file_id, group_id);
+    const response = await file_services.check_in(user_id, file_ides, group_id);
     return res.status(response.statusCode).json(response);
 }
 

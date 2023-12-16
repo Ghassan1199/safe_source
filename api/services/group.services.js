@@ -25,7 +25,7 @@ const create = async (name, owner_id) => {
 
     } catch (err) {
         console.log(err)
-        transaction.rollback();
+       await transaction.rollback();
         return responseMessage(false, 400, "couldn`t create the group", err)
 
     }
