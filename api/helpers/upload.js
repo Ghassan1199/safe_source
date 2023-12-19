@@ -2,10 +2,12 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const RError = require('./error');
+const {Mutex} = require('async-mutex')
+
+const mutex = new Mutex();
 
 const upload = (keep = true) => {
     !fs.existsSync(`./files`) && fs.mkdirSync(`./files`, { recursive: true })
-
     const storage = multer.diskStorage(
         {
             destination: (_, _2, cb) => {
@@ -22,15 +24,17 @@ const upload = (keep = true) => {
         });
 
 
-    const fileFilter = (req, file, cb) => {
+    const fileFilter = async (req, file, cb) => {
+         await mutex.acquire();
         const targetPath = path.join('./files', req.body.file_name + path.extname(file.originalname));
         // Check if the file with the same name already exists
 
         if (fs.existsSync(targetPath)) {
+            mutex.release();
             // Reject the file upload
             return cb(new RError(400, 'File with the same name already exists.'));
         }
-
+        mutex.release();
         // Accept the file upload
         cb(null, true);
     };
