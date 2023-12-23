@@ -1,0 +1,5 @@
+group index function must get only the groups that the user is a member of it.
+
+a function that must get the users which are not in a group.
+
+a function must get the groups for a user.
