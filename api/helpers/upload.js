@@ -25,16 +25,16 @@ const upload = (keep = true) => {
 
 
     const fileFilter = async (req, file, cb) => {
-         await mutex.acquire();
+
         const targetPath = path.join('./files', req.body.file_name + path.extname(file.originalname));
         // Check if the file with the same name already exists
 
         if (fs.existsSync(targetPath)) {
-            mutex.release();
+
             // Reject the file upload
             return cb(new RError(400, 'File with the same name already exists.'));
         }
-        mutex.release();
+
         // Accept the file upload
         cb(null, true);
     };

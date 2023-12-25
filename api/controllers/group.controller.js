@@ -11,9 +11,10 @@ const createGroup = async (req, res) => {
     
 }
 
-const index = async (_, res) => {
+const index = async (req, res) => {
 
-    const response = await groupServices.index();
+    const user_id = req.user_id
+    const response = await groupServices.index(user_id);
 
     return res.status(response.statusCode).json(response);
 }
@@ -57,6 +58,7 @@ const removeUserFromGroup = async (req, res) => {
     return res.status(response.statusCode).json(response);
 
 }
+
 
 
 module.exports = {

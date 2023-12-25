@@ -25,7 +25,6 @@ const create = async (name, password) => {
 
 
 
-
         if (!name || !password) {
 
             throw new RError(404, "All fields are required");
@@ -123,5 +122,32 @@ const destroy = async (user_id) => {
     }
 }
 
+const get_users_not_in_group= async (group_id)=> {
 
-module.exports = { create, login, index, show, destroy };
+        try {
+            const users = await Model.User.findAll({
+                attributes: ['id', 'name',],
+                include: {
+                    model: Model.Group,
+                    attributes: [],
+                    where: {
+                        id: {
+                            [Op.not]: group_id 
+                        }
+                    },
+                    through: { attributes: [] } 
+                }
+            });
+    
+            return responseMessage(true, 200, "users not in the specific group returned successfully", {users});
+    
+        } catch (err) {
+            console.log(err);
+            return responseMessage(false, 400, "couldn't fetch the users not in the specific group", err);
+        }
+    
+}
+
+
+
+module.exports = { create, login, index, show, destroy ,get_users_not_in_group};

@@ -12,10 +12,12 @@ const register = async (req, res)=>{
 }
 
 const login = async (req, res)=>{
+    console.log("heelo")
 
     const {name, password} = req.body;
 
     const response = await userServices.login(name,password);
+
     res.status(response.statusCode).send(response);
 }
 
@@ -38,5 +40,11 @@ const deleteUser = async (req, res)=>{
 }
 
 
+const not_in_group = async(req,res)=>{
+    const group_id = req.params.group_id
+    const response = await userServices.get_users_not_in_group(group_id);
+    res.status(response.statusCode).send(response);
+}
 
-module.exports = {register, login, getUsers, showUser, deleteUser};
+
+module.exports = {register, login, getUsers, showUser, deleteUser,not_in_group};

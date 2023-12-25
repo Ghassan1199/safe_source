@@ -25,7 +25,7 @@ const create = async (name, owner_id) => {
 
     } catch (err) {
         console.log(err)
-       await transaction.rollback();
+        await transaction.rollback();
         return responseMessage(false, 400, "couldn`t create the group", err)
 
     }
@@ -33,11 +33,21 @@ const create = async (name, owner_id) => {
 
 }
 
-const index = async () => {
+const index = async (user_id = null) => {
     try {
 
-        const groups = await Group.findAll();
-        return responseMessage(true, 200, "groups returned successfully", groups)
+        const user = await User.findAll({
+            include: [{
+                model: Group,
+                attributes: ['id', 'name']
+            }],
+
+            attributes: []
+        });
+
+        const groups = user.map(user => user.Groups);
+        console.log(groups)
+        return responseMessage(true, 200, "groups returned successfully", user)
 
     } catch (err) {
         console.log(err)
@@ -115,7 +125,7 @@ const removeUser = async (user_id, group_id, user) => {
         if (!group) throw new RError(404, "group not found");
 
         if (group.owner_id == user_id) throw new RError(400, "can`t remove the group owner ");
-        
+
         if (group.owner_id != user && user != user_id) throw new RError(403, "not autherized");
 
         const group_user = await GroupUser.findOne({
@@ -148,5 +158,5 @@ module.exports = {
     show,
     destroy,
     addUser,
-    removeUser
+    removeUser,
 }
