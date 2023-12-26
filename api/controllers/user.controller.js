@@ -12,7 +12,6 @@ const register = async (req, res)=>{
 }
 
 const login = async (req, res)=>{
-    console.log("heelo")
 
     const {name, password} = req.body;
 

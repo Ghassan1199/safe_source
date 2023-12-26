@@ -20,7 +20,7 @@ const logRes = (res)=>{
     log(resLogsPath, data);
 }
 
-const log = (path, data)=>{
+const log =  (path, data)=>{
     !fs.existsSync(`./logfiles`) && fs.mkdirSync(`./logfiles`, { recursive: true })
 
     const date = new Date().toLocaleString();
