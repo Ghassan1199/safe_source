@@ -1,6 +1,7 @@
 const { Model } = require('../../database/db');
 const GroupUser = Model.GroupUser;
 const GroupFile = Model.GroupFile;
+const RError = require('../../helpers/error')
 
 
 const chickInValidator = async(user_id, group_id, file_id)=>

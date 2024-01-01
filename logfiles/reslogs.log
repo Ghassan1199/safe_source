@@ -1,0 +1,15 @@
+1/1/2024, 10:39:41 PM | 500 | body {"code":500,"body":{"status":false,"statusCode":500,"error":"jwt expired"}}  
+1/1/2024, 10:39:47 PM | 200 | body {"code":200,"body":{"status":true,"statusCode":200,"msg":"token is generated","data":{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzA0MTM3OTg3LCJleHAiOjE3MDQxNDE1ODd9.JfcBwaWBy1g8RBcknxJXxy8K3fsRV7dK_bbi1YpLQNA","user_id":1}}}  
+1/1/2024, 10:40:10 PM | 200 | body {"status":true,"statusCode":200,"msg":"file added Successfully","data":{"id":1,"name":"text","path":"files\\text.txt","date":"2024-01-01T19:40:10.275Z","check":false,"public":true,"owner_id":1,"updatedAt":"2024-01-01T19:40:10.277Z","createdAt":"2024-01-01T19:40:10.277Z"}}  
+1/1/2024, 10:44:00 PM | 500 | body {"status":false,"statusCode":500,"error":"RError is not defined"}  
+1/1/2024, 10:44:30 PM | 500 | body {"status":false,"statusCode":500,"error":"RError is not defined"}  
+1/1/2024, 10:44:59 PM | 500 | body {"status":false,"statusCode":500,"error":"RError is not defined"}  
+1/1/2024, 10:45:15 PM | 500 | body {"status":false,"statusCode":500,"error":"RError is not defined"}  
+1/1/2024, 10:45:49 PM | 403 | body {"status":false,"statusCode":403,"error":"the file is not in the group"}  
+1/1/2024, 10:46:15 PM | 200 | body {"status":true,"statusCode":200,"msg":"file shared with group successfully"}  
+1/1/2024, 10:46:20 PM | 200 | body {"status":true,"statusCode":200,"msg":"checked in"}  
+1/1/2024, 10:46:22 PM | 400 | body {"status":false,"statusCode":400,"error":"checked before"}  
+1/1/2024, 10:46:29 PM | 500 | body {"code":500,"body":{"status":false,"statusCode":500,"error":"jwt expired"}}  
+1/1/2024, 10:46:35 PM | 200 | body {"status":true,"statusCode":200,"msg":"file has been checked out successfully","data":{"id":1,"name":"text","path":"files\\text.txt","check":false,"public":true,"date":"2024-01-01T19:40:10.275Z","createdAt":"2024-01-01T19:40:10.277Z","updatedAt":"2024-01-01T19:46:35.493Z","owner_id":1}}  
+1/1/2024, 10:46:38 PM | 200 | body {"status":true,"statusCode":200,"msg":"checked in"}  
+1/1/2024, 10:46:45 PM | 200 | body {"status":true,"statusCode":200,"msg":"file has been checked out successfully","data":{"id":1,"name":"text","path":"files\\text.txt","check":false,"public":true,"date":"2024-01-01T19:40:10.275Z","createdAt":"2024-01-01T19:40:10.277Z","updatedAt":"2024-01-01T19:46:45.481Z","owner_id":1}}  

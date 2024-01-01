@@ -211,6 +211,7 @@ const check_in = async (user_id, file_ides, group_id)=>{
             return responseMessage(true, 200, "checked in");
     
         } catch (error) {
+            console.log(error)
     
             let statusCode = error.statusCode || 500;
     
