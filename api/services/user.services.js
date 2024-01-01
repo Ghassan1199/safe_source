@@ -125,19 +125,27 @@ const destroy = async (user_id) => {
 const get_users_not_in_group= async (group_id)=> {
 
         try {
-            const users = await Model.User.findAll({
-                attributes: ['id', 'name',],
+            const usersInGroup = await Model.User.findAll({
+                attributes: ['id'],
                 include: {
-                    model: Model.Group,
-                    attributes: [],
-                    where: {
-                        id: {
-                            [Op.not]: group_id 
-                        }
+                  model: Model.Group,
+                  where: {
+                    id: group_id,
+                  },
+                },
+              });
+              
+              const userIds = usersInGroup.map(user => user.id);
+
+              
+            const users = await Model.User.findAll({
+                attributes: ['id', 'name'],
+                where: {
+                    id: {
+                      [Op.notIn]: userIds,
                     },
-                    through: { attributes: [] } 
-                }
-            });
+                  },
+              });
     
             return responseMessage(true, 200, "users not in the specific group returned successfully", {users});
     
