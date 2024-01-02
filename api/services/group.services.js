@@ -33,16 +33,20 @@ const create = async (name, owner_id) => {
 
 }
 
-const index = async (user_id = null) => {
+const index = async (user_id = null, owner_id = null) => {
     try {
+        const where = {}
+        if (owner_id) where.owner_id = owner_id
 
         const user = await User.findAll({
             where: {
-                id:user_id
+                id: user_id
             },
             include: [{
                 model: Group,
-                attributes: ['id', 'name']
+                attributes: ['id', 'name'],
+                where: where
+
             }],
 
             attributes: []
@@ -137,6 +141,19 @@ const removeUser = async (user_id, group_id, user) => {
         });
 
         if (!group_user) throw new RError(404, "user not found");
+
+        const files = await Model.BFR.findAll({
+            where: {
+                user_id: user_id,
+                check_out_date: null
+            },
+            include:{
+                model: Model.File,
+                attributes : ['name']
+            }
+        })
+
+        if (files[0]) throw new RError(403, `user checked the file : ${files[0].file.name}`);
 
         group_user.destroy();
 
