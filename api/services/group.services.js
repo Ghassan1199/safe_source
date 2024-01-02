@@ -37,6 +37,9 @@ const index = async (user_id = null) => {
     try {
 
         const user = await User.findAll({
+            where: {
+                id:user_id
+            },
             include: [{
                 model: Group,
                 attributes: ['id', 'name']
@@ -45,8 +48,6 @@ const index = async (user_id = null) => {
             attributes: []
         });
 
-        const groups = user.map(user => user.Groups);
-        console.log(groups)
         return responseMessage(true, 200, "groups returned successfully", user)
 
     } catch (err) {
