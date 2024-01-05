@@ -12,6 +12,7 @@ const fileRoutes = require('./api/routes/files.routes');
 const logger = require("./api/services/logging.services");
 
 const bodyParser = require("body-parser");
+const scheduler = require("./api/services/schedular.services");
 
 app.use(morgan("dev"))
 
@@ -57,3 +58,4 @@ app.use('/files',fileRoutes);
 
 
 
+scheduler.run;

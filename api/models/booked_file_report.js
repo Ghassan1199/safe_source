@@ -16,6 +16,11 @@ module.exports = (sequelize, DataTypes)=>{
             type: DataTypes.DATE,
             allowNull: true,
             defaultValue: null
+        },
+        exp_date: {
+            type: DataTypes.DATE,
+            allowNull: true,
+            
         }
     });
 };

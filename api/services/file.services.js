@@ -6,13 +6,13 @@ const fs = require('fs');
 const GroupUser = Model.GroupUser;
 const GroupFile = Model.GroupFile;
 const { sequelize } = require('../database/connection');
-const { ValidationError, DATE } = require('sequelize');
-const booked_file_report = require('../models/booked_file_report');
+const { ValidationError } = require('sequelize');
 const File = Model.File;
 const Booked_file = Model.BFR;
 
 const { Mutex } = require('async-mutex');
 const chickInValidator = require('../middlewares/validation/checkValidation');
+const dateAndTime = require('date-and-time');
 
 const mutex = new Mutex();
 
@@ -200,12 +200,13 @@ const check_in = async (user_id, file_ides, group_id)=>{
 
         if (file.check) throw new RError(400, "checked before");
 
-        await Booked_file.create({ group_id: group_id, user_id: user_id, file_id: file_id, check_in_date: new Date() },{transaction});
+        const exp_date = dateAndTime.addDays(new Date(), 3);
+
+        await Booked_file.create({ group_id: group_id, user_id: user_id, file_id: file_id, check_in_date: new Date(), exp_date },{transaction});
         file.check = true;
         await file.save({transaction});
 
     }
-        
             await transaction.commit();
     
             return responseMessage(true, 200, "checked in");

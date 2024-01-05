@@ -6,7 +6,7 @@ const GroupUser = Model.GroupUser;
 const { sequelize } = require('../database/connection');
 const { ValidationError } = require('sequelize');
 const User = Model.User;
-
+const file_services = require("./file.services");
 
 const create = async (name, owner_id) => {
     const transaction = await sequelize.transaction();
@@ -153,7 +153,10 @@ const removeUser = async (user_id, group_id, user) => {
             }
         })
 
-        if (files[0]) throw new RError(403, `user checked the file : ${files[0].file.name}`);
+        if (files[0]){
+            await file_services.check_out(user_id, files[0].file_id);
+        }
+        // throw new RError(403, `user checked the file : ${files[0].file.name}`);
 
         group_user.destroy();
 

@@ -14,7 +14,7 @@ const createGroup = async (req, res) => {
 const index = async (req, res) => {
 
     const user_id = req.user_id
-    const owner_id = req.params.owner_id
+    const owner_id = req.query.owner_id
     const response = await groupServices.index(user_id,owner_id);
 
     return res.status(response.statusCode).json(response);
