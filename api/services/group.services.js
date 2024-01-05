@@ -35,24 +35,35 @@ const create = async (name, owner_id) => {
 
 const index = async (user_id = null, owner_id = null) => {
     try {
-        const where = {}
-        if (owner_id) where.owner_id = owner_id
+       
+        let data;
+        if (owner_id) 
+        {
 
-        const user = await User.findAll({
-            where: {
-                id: user_id
-            },
-            include: [{
-                model: Group,
-                attributes: ['id', 'name'],
-                where: where
+             data = await Group.findAll({
+                where: {
+                    owner_id
+                },
+                attributes: ['id', 'name']
+               
+            });
+    
+        }
+        else{
+             data = await User.findAll({
+                where: {
+                    id: user_id
+                },
+                include: [{
+                    model: Group,
+                    attributes: ['id', 'name'],
+                }],
+            });
+        }
 
-            }],
+     
 
-            attributes: []
-        });
-
-        return responseMessage(true, 200, "groups returned successfully", user)
+        return responseMessage(true, 200, "groups returned successfully", data)
 
     } catch (err) {
         console.log(err)
