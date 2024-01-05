@@ -33,7 +33,10 @@ const show_files = async (req, res) => {
 
     const public = req.query.public;
 
-    const response = await file_services.index(owner_id, group_id, public);
+    const check = req.body.check;
+
+
+    const response = await file_services.index(owner_id, group_id, public, check);
     return res.status(response.statusCode).json(response);
 
 }

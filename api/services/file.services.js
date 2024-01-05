@@ -62,7 +62,7 @@ const remove = async (file_id, owner_id) => {
 }
 
 
-const index = async (owner_id = null, group_id = null, public = true, check = false) => {
+const index = async (owner_id = null, group_id = null, public = true, check) => {
     try {
 
         const where = {};
@@ -87,10 +87,15 @@ const index = async (owner_id = null, group_id = null, public = true, check = fa
             }
 
             const filesInGroup = await group.files;
-            files = filesInGroup
-            console.log(filesInGroup);
+            if(check){
+                files = filesInGroup.filter(file => file.check);
+
+            }else{
+                files = filesInGroup.filter(file => !file.check);
+            }
 
         } else {
+            where.check = check;
             files = await File.findAll({
                 where: where
             })
