@@ -150,14 +150,14 @@ const removeUser = async (user_id, group_id, user) => {
                 model: Model.File,
                 attributes: ['name']
             }
-        })
+        });
 
-        if (files[0]) {
-            await file_services.check_out(user_id, files[0].file_id);
+        for(let file of files){
+            console.log(file)
+            await file_services.check_out(user_id, file.file_id);
         }
-        // throw new RError(403, `user checked the file : ${files[0].file.name}`);
 
-        group_user.destroy();
+        await group_user.destroy();
 
         return responseMessage(true, 200, "user removed successfully", group_user);
 

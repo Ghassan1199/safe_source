@@ -7,3 +7,57 @@
 1/6/2024, 11:38:57 AM | 200 | body {"status":true,"statusCode":200,"msg":"groups returned successfully","data":[{"id":4,"name":"mhd","password":"$2b$10$gCp2g9oNctQQG2iZiDo6L.xvzuuEoXJnY9M7cUCMMxxr0pDuzXqi6","createdAt":"2024-01-01T19:35:30.459Z","updatedAt":"2024-01-01T19:35:30.459Z","groups":[{"id":1,"name":"gg group","group_user":{"id":11,"createdAt":"2024-01-02T10:10:24.056Z","updatedAt":"2024-01-02T10:10:24.056Z","userId":4,"groupId":1}}]}]}  
 1/6/2024, 11:39:20 AM | 200 | body {"status":true,"statusCode":200,"msg":"groups returned successfully","data":[]}  
 1/6/2024, 11:39:24 AM | 200 | body {"status":true,"statusCode":200,"msg":"groups returned successfully","data":[{"id":4,"name":"mhd","password":"$2b$10$gCp2g9oNctQQG2iZiDo6L.xvzuuEoXJnY9M7cUCMMxxr0pDuzXqi6","createdAt":"2024-01-01T19:35:30.459Z","updatedAt":"2024-01-01T19:35:30.459Z","groups":[{"id":1,"name":"gg group","group_user":{"id":11,"createdAt":"2024-01-02T10:10:24.056Z","updatedAt":"2024-01-02T10:10:24.056Z","userId":4,"groupId":1}}]}]}  
+1/6/2024, 11:44:08 AM | 500 | body {"code":500,"body":{"status":false,"statusCode":500,"error":"jwt expired"}}  
+1/6/2024, 11:44:18 AM | 200 | body {"status":true,"statusCode":200,"msg":"files is sent","data":[{"id":1,"name":"text","path":"files\\text.txt","check":false,"public":true,"date":"2024-01-01T19:40:10.275Z","createdAt":"2024-01-01T19:40:10.277Z","updatedAt":"2024-01-02T10:08:25.726Z","owner_id":1,"group_file":{"id":1,"createdAt":"2024-01-01T19:46:15.664Z","updatedAt":"2024-01-01T19:46:15.664Z","fileId":1,"groupId":1}}]}  
+1/6/2024, 11:46:22 AM | 500 | body {"code":500,"body":{"status":false,"statusCode":500,"error":"jwt expired"}}  
+1/6/2024, 11:46:27 AM | 400 | body {"error":"File with the same name already exists."}  
+1/6/2024, 11:46:40 AM | 200 | body {"status":true,"statusCode":200,"msg":"file added Successfully","data":{"id":3,"name":"asd","path":"files\\asd.txt","date":"2024-01-06T08:46:40.366Z","check":false,"public":true,"owner_id":4,"updatedAt":"2024-01-06T08:46:40.367Z","createdAt":"2024-01-06T08:46:40.367Z"}}  
+1/6/2024, 11:46:55 AM | 500 | body {"code":500,"body":{"status":false,"statusCode":500,"error":"jwt expired"}}  
+1/6/2024, 11:47:00 AM | 404 | body {"status":false,"statusCode":404,"error":"file not found"}  
+1/6/2024, 11:47:17 AM | 200 | body {"status":true,"statusCode":200,"msg":"file shared with group successfully"}  
+1/6/2024, 11:47:21 AM | 400 | body {"status":false,"statusCode":400,"error":"Validation error"}  
+1/6/2024, 11:47:32 AM | 500 | body {"code":500,"body":{"status":false,"statusCode":500,"error":"jwt expired"}}  
+1/6/2024, 11:47:37 AM | 200 | body {"status":true,"statusCode":200,"msg":"checked in"}  
+1/6/2024, 11:47:48 AM | 200 | body {"code":200,"body":{"status":true,"statusCode":200,"msg":"token is generated","data":{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNzA0NTMwODY4LCJleHAiOjE3MDQ1MzQ0Njh9.F8KTnQ7VLIY6LqzdglwZV4fv8zRrsZiTWcORq7qKIl4","user_id":3}}}  
+1/6/2024, 11:48:04 AM | 200 | body {"code":200,"body":{"status":true,"statusCode":200,"msg":"users retrieved","data":{"users":[{"id":1,"name":"fale7"},{"id":2,"name":"saad"},{"id":3,"name":"ghassan"},{"id":4,"name":"mhd"}]}}}  
+1/6/2024, 11:48:10 AM | 200 | body {"code":200,"body":{"status":true,"statusCode":200,"msg":"token is generated","data":{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzA0NTMwODkwLCJleHAiOjE3MDQ1MzQ0OTB9.9_OlzvAoznd-kHaomrFpu-CM_KuOBo-cmnBaMn0We7Q","user_id":1}}}  
+1/6/2024, 11:48:28 AM | 200 | body {"status":true,"statusCode":200,"msg":"user removed successfully","data":{"id":11,"createdAt":"2024-01-02T10:10:24.056Z","updatedAt":"2024-01-02T10:10:24.056Z","userId":4,"groupId":1}}  
+1/6/2024, 11:48:40 AM | 403 | body {"status":false,"statusCode":403,"error":"you are not in the group"}  
+1/6/2024, 11:48:44 AM | 400 | body {"status":false,"statusCode":400,"error":"checked before"}  
+1/6/2024, 11:48:46 AM | 400 | body {"status":false,"statusCode":400,"error":"checked before"}  
+1/6/2024, 11:48:53 AM | 403 | body {"status":false,"statusCode":403,"error":"you are not the one who checked in"}  
+1/6/2024, 11:49:53 AM | 403 | body {"status":false,"statusCode":403,"error":"you are not the one who checked in"}  
+1/6/2024, 11:49:58 AM | 404 | body {"status":false,"statusCode":404,"error":"file not found"}  
+1/6/2024, 11:50:04 AM | 200 | body {"status":true,"statusCode":200,"msg":"file has been checked out successfully","data":{"id":3,"name":"asd","path":"files\\asd.txt","check":false,"public":true,"date":"2024-01-06T08:46:40.366Z","createdAt":"2024-01-06T08:46:40.367Z","updatedAt":"2024-01-06T08:50:04.522Z","owner_id":4}}  
+1/6/2024, 11:50:13 AM | 403 | body {"status":false,"statusCode":403,"error":"you are not in the group"}  
+1/6/2024, 11:50:22 AM | 400 | body {"error":"File with the same name already exists."}  
+1/6/2024, 11:50:32 AM | 200 | body {"status":true,"statusCode":200,"msg":"user add successfully","data":{"id":12,"groupId":1,"userId":4,"updatedAt":"2024-01-06T08:50:32.457Z","createdAt":"2024-01-06T08:50:32.457Z"}}  
+1/6/2024, 11:50:38 AM | 200 | body {"status":true,"statusCode":200,"msg":"checked in"}  
+1/6/2024, 11:50:49 AM | 200 | body {"status":true,"statusCode":200,"msg":"user removed successfully","data":{"id":12,"createdAt":"2024-01-06T08:50:32.457Z","updatedAt":"2024-01-06T08:50:32.457Z","userId":4,"groupId":1}}  
+1/6/2024, 11:51:25 AM | 400 | body {"status":false,"statusCode":400,"error":"checked before"}  
+1/6/2024, 11:53:26 AM | 400 | body {"status":false,"statusCode":400,"error":"checked before"}  
+1/6/2024, 11:53:30 AM | 200 | body {"status":true,"statusCode":200,"msg":"file has been checked out successfully","data":{"id":3,"name":"asd","path":"files\\asd.txt","check":false,"public":true,"date":"2024-01-06T08:46:40.366Z","createdAt":"2024-01-06T08:46:40.367Z","updatedAt":"2024-01-06T08:53:30.729Z","owner_id":4}}  
+1/6/2024, 11:53:33 AM | 200 | body {"status":true,"statusCode":200,"msg":"checked in"}  
+1/6/2024, 11:53:38 AM | 200 | body {"status":true,"statusCode":200,"msg":"file has been checked out successfully","data":{"id":3,"name":"asd","path":"files\\asd.txt","check":false,"public":true,"date":"2024-01-06T08:46:40.366Z","createdAt":"2024-01-06T08:46:40.367Z","updatedAt":"2024-01-06T08:53:38.794Z","owner_id":4}}  
+1/6/2024, 11:53:46 AM | 403 | body {"status":false,"statusCode":403,"error":"you are not in the group"}  
+1/6/2024, 11:53:51 AM | 200 | body {"status":true,"statusCode":200,"msg":"user add successfully","data":{"id":13,"groupId":1,"userId":4,"updatedAt":"2024-01-06T08:53:51.108Z","createdAt":"2024-01-06T08:53:51.108Z"}}  
+1/6/2024, 11:53:52 AM | 200 | body {"status":true,"statusCode":200,"msg":"checked in"}  
+1/6/2024, 11:54:02 AM | 200 | body {"status":true,"statusCode":200,"msg":"user removed successfully","data":{"id":13,"createdAt":"2024-01-06T08:53:51.108Z","updatedAt":"2024-01-06T08:53:51.108Z","userId":4,"groupId":1}}  
+1/6/2024, 11:54:44 AM | 200 | body {"status":true,"statusCode":200,"msg":"user add successfully","data":{"id":14,"groupId":1,"userId":4,"updatedAt":"2024-01-06T08:54:44.232Z","createdAt":"2024-01-06T08:54:44.232Z"}}  
+1/6/2024, 11:54:46 AM | 400 | body {"status":false,"statusCode":400,"error":"checked before"}  
+1/6/2024, 11:54:49 AM | 403 | body {"status":false,"statusCode":403,"error":"you are not the one who checked in"}  
+1/6/2024, 11:54:53 AM | 200 | body {"status":true,"statusCode":200,"msg":"file has been checked out successfully","data":{"id":3,"name":"asd","path":"files\\asd.txt","check":false,"public":true,"date":"2024-01-06T08:46:40.366Z","createdAt":"2024-01-06T08:46:40.367Z","updatedAt":"2024-01-06T08:54:53.878Z","owner_id":4}}  
+1/6/2024, 11:54:58 AM | 200 | body {"status":true,"statusCode":200,"msg":"checked in"}  
+1/6/2024, 11:55:00 AM | 400 | body {"status":false,"statusCode":400,"error":"checked before"}  
+1/6/2024, 11:55:07 AM | 200 | body {"status":true,"statusCode":200,"msg":"user removed successfully","data":{"id":14,"createdAt":"2024-01-06T08:54:44.232Z","updatedAt":"2024-01-06T08:54:44.232Z","userId":4,"groupId":1}}  
+1/6/2024, 11:56:40 AM | 200 | body {"status":true,"statusCode":200,"msg":"user add successfully","data":{"id":15,"groupId":1,"userId":4,"updatedAt":"2024-01-06T08:56:40.709Z","createdAt":"2024-01-06T08:56:40.709Z"}}  
+1/6/2024, 11:56:43 AM | 200 | body {"status":true,"statusCode":200,"msg":"file has been checked out successfully","data":{"id":3,"name":"asd","path":"files\\asd.txt","check":false,"public":true,"date":"2024-01-06T08:46:40.366Z","createdAt":"2024-01-06T08:46:40.367Z","updatedAt":"2024-01-06T08:56:43.703Z","owner_id":4}}  
+1/6/2024, 11:56:45 AM | 200 | body {"status":true,"statusCode":200,"msg":"checked in"}  
+1/6/2024, 11:56:49 AM | 200 | body {"status":true,"statusCode":200,"msg":"user removed successfully","data":{"id":15,"createdAt":"2024-01-06T08:56:40.709Z","updatedAt":"2024-01-06T08:56:40.709Z","userId":4,"groupId":1}}  
+1/6/2024, 11:57:15 AM | 200 | body {"status":true,"statusCode":200,"msg":"user add successfully","data":{"id":16,"groupId":1,"userId":4,"updatedAt":"2024-01-06T08:57:15.925Z","createdAt":"2024-01-06T08:57:15.925Z"}}  
+1/6/2024, 11:57:17 AM | 400 | body {"status":false,"statusCode":400,"error":"checked before"}  
+1/6/2024, 11:57:20 AM | 200 | body {"status":true,"statusCode":200,"msg":"file has been checked out successfully","data":{"id":3,"name":"asd","path":"files\\asd.txt","check":false,"public":true,"date":"2024-01-06T08:46:40.366Z","createdAt":"2024-01-06T08:46:40.367Z","updatedAt":"2024-01-06T08:57:20.182Z","owner_id":4}}  
+1/6/2024, 11:57:21 AM | 200 | body {"status":true,"statusCode":200,"msg":"checked in"}  
+1/6/2024, 11:57:25 AM | 200 | body {"status":true,"statusCode":200,"msg":"user removed successfully","data":{"id":16,"createdAt":"2024-01-06T08:57:15.925Z","updatedAt":"2024-01-06T08:57:15.925Z","userId":4,"groupId":1}}  
+1/6/2024, 11:57:41 AM | 200 | body {"status":true,"statusCode":200,"msg":"checked in"}  
+1/6/2024, 11:57:46 AM | 200 | body {"status":true,"statusCode":200,"msg":"file has been checked out successfully","data":{"id":3,"name":"asd","path":"files\\asd.txt","check":false,"public":true,"date":"2024-01-06T08:46:40.366Z","createdAt":"2024-01-06T08:46:40.367Z","updatedAt":"2024-01-06T08:57:46.538Z","owner_id":4}}  
