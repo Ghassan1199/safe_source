@@ -35,33 +35,21 @@ const create = async (name, owner_id) => {
 
 const index = async (user_id = null, owner_id = null) => {
     try {
-       
+
         let data;
-        if (owner_id) 
-        {
+        const where = {};
 
-             data = await Group.findAll({
-                where: {
-                    owner_id
-                },
-                attributes: ['id', 'name']
-               
-            });
-    
-        }
-        else{
-             data = await User.findAll({
-                where: {
-                    id: user_id
-                },
-                include: [{
-                    model: Group,
-                    attributes: ['id', 'name'],
-                }],
-            });
-        }
+        if(owner_id) where.owner_id = owner_id;
+        
+        data = await User.findAll({
+            where: user_id,
+            include: [{
+                model: Group,
+                attributes: ['id', 'name'],
+                where:where
+            }],
+        });
 
-     
 
         return responseMessage(true, 200, "groups returned successfully", data)
 
@@ -158,13 +146,13 @@ const removeUser = async (user_id, group_id, user) => {
                 user_id: user_id,
                 check_out_date: null
             },
-            include:{
+            include: {
                 model: Model.File,
-                attributes : ['name']
+                attributes: ['name']
             }
         })
 
-        if (files[0]){
+        if (files[0]) {
             await file_services.check_out(user_id, files[0].file_id);
         }
         // throw new RError(403, `user checked the file : ${files[0].file.name}`);

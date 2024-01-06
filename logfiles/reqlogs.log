@@ -1,0 +1,9 @@
+1/6/2024, 11:37:13 AM | METHOD : GET | URL :  /groups/index | PARAMS : {} | QUERY : {} | BODY {}  
+1/6/2024, 11:37:17 AM | METHOD : POST | URL :  /users/login | PARAMS : {} | QUERY : {} | BODY {"name":"mhd","password":"12345"}  
+1/6/2024, 11:37:26 AM | METHOD : GET | URL :  /groups/index | PARAMS : {} | QUERY : {} | BODY {}  
+1/6/2024, 11:38:16 AM | METHOD : GET | URL :  /groups/index | PARAMS : {} | QUERY : {} | BODY {}  
+1/6/2024, 11:38:37 AM | METHOD : GET | URL :  /groups/index | PARAMS : {} | QUERY : {} | BODY {}  
+1/6/2024, 11:38:50 AM | METHOD : GET | URL :  /groups/index | PARAMS : {} | QUERY : {} | BODY {}  
+1/6/2024, 11:38:57 AM | METHOD : GET | URL :  /groups/index | PARAMS : {} | QUERY : {} | BODY {}  
+1/6/2024, 11:39:20 AM | METHOD : GET | URL :  /groups/index?owner_id=4 | PARAMS : {} | QUERY : {"owner_id":"4"} | BODY {}  
+1/6/2024, 11:39:24 AM | METHOD : GET | URL :  /groups/index?owner_id | PARAMS : {} | QUERY : {"owner_id":""} | BODY {}  
