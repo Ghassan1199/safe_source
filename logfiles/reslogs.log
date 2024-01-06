@@ -61,3 +61,16 @@
 1/6/2024, 11:57:25 AM | 200 | body {"status":true,"statusCode":200,"msg":"user removed successfully","data":{"id":16,"createdAt":"2024-01-06T08:57:15.925Z","updatedAt":"2024-01-06T08:57:15.925Z","userId":4,"groupId":1}}  
 1/6/2024, 11:57:41 AM | 200 | body {"status":true,"statusCode":200,"msg":"checked in"}  
 1/6/2024, 11:57:46 AM | 200 | body {"status":true,"statusCode":200,"msg":"file has been checked out successfully","data":{"id":3,"name":"asd","path":"files\\asd.txt","check":false,"public":true,"date":"2024-01-06T08:46:40.366Z","createdAt":"2024-01-06T08:46:40.367Z","updatedAt":"2024-01-06T08:57:46.538Z","owner_id":4}}  
+1/6/2024, 12:15:32 PM | 200 | body {"code":200,"body":{"status":true,"statusCode":200,"msg":"token is generated","data":{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiaWF0IjoxNzA0NTMyNTMyLCJleHAiOjE3MDQ1MzYxMzJ9.CxicAQMqmBKQ6qzjFFIQ4RpgdCSMg8uSiQ3Z0QcZvoY","user_id":4}}}  
+1/6/2024, 12:16:06 PM | 401 | body {"code":401,"body":{"status":false,"statusCode":401,"error":"wrong credentials"}}  
+1/6/2024, 12:17:15 PM | 401 | body {"code":401,"body":{"status":false,"statusCode":401,"error":"wrong credentials"}}  
+1/6/2024, 12:19:30 PM | 401 | body {"code":401,"body":{"status":false,"statusCode":401,"error":"wrong credentials"}}  
+1/6/2024, 12:19:35 PM | 401 | body {"code":401,"body":{"status":false,"statusCode":401,"error":"wrong credentials"}}  
+1/6/2024, 12:25:20 PM | 401 | body {"code":401,"body":{"status":false,"statusCode":401,"error":"wrong credentials"}}  
+1/6/2024, 12:26:10 PM | 401 | body {"code":401,"body":{"status":false,"statusCode":401,"error":"wrong credentials"}}  
+1/6/2024, 12:27:13 PM | 401 | body {"code":401,"body":{"status":false,"statusCode":401,"error":"wrong credentials"}}  
+1/6/2024, 12:28:06 PM | 401 | body {"code":401,"body":{"status":false,"statusCode":401,"error":"wrong credentials"}}  
+1/6/2024, 12:28:41 PM | 401 | body {"code":401,"body":{"status":false,"statusCode":401,"error":"wrong credentials"}}  
+1/6/2024, 12:29:28 PM | 401 | body {"code":401,"body":{"status":false,"statusCode":401,"error":"wrong credentials"}}  
+1/6/2024, 12:30:09 PM | 401 | body {"code":401,"body":{"status":false,"statusCode":401,"error":"wrong credentials"}}  
+1/6/2024, 12:37:39 PM | 401 | body {"code":401,"body":{"status":false,"statusCode":401,"error":"wrong credentials"}}  

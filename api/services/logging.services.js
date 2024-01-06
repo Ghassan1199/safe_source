@@ -1,12 +1,12 @@
 const fs = require("fs");
-
+const { Model } = require('../database/db')
+const log_model = Model.Log
 const reqLogsPath = "./logfiles/reqlogs.log";
 const resLogsPath = "./logfiles/reslogs.log";
 
 
 const logReq = (req)=>{
     const data = `METHOD : ${req.method} | URL :  ${req.url} | PARAMS : ${JSON.stringify(req.params)} | QUERY : ${JSON.stringify(req.query)} | BODY ${JSON.stringify(req.body)} `;
-
     log(reqLogsPath, data);
 }
 
@@ -35,5 +35,25 @@ const log =  (path, data)=>{
       });
 }
 
+const create_log_record = async (req,res)=>{
+  try{
 
-module.exports = {logReq, logRes};
+    log_model.create({
+      req_method: req.method,
+      req_url: req.url,
+      req_params: req.params,
+      req_query: req.query,
+      req_body: req.body,
+
+      res_body:res.body,
+      res_status:res.code
+    })
+
+
+  }catch(error){
+    console.log(error)
+  }
+}
+
+
+module.exports = {logReq, logRes,create_log_record};

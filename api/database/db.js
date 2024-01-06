@@ -11,6 +11,7 @@ Model.GroupFile = require("../models/group_file")(sequelize, DataTypes);
 Model.GroupUser = require("../models/group_user")(sequelize, DataTypes);
 Model.Group = require("../models/group")(sequelize, DataTypes);
 Model.User = require("../models/user")(sequelize, DataTypes);
+Model.Log = require('../models/log')(sequelize,DataTypes)
 
 
 
