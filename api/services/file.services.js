@@ -280,6 +280,40 @@ const check_out = async (user_id, file_id) => {
 
 }
 
+const download = async (file_id, user_id) => {
+   
+    try {
+
+        const file = await File.findByPk(file_id);
+        if (!file) throw new RError(404, "file not found");
+
+
+        const booked_file = await Booked_file.findOne({
+            where: {
+                user_id: user_id,
+                file_id: file_id,
+                check_out_date :null
+            }
+        });
+
+        if (!booked_file) throw new RError(403, "you are not the one who checked in");
+
+    
+
+        return responseMessage(true, 200, "file is sent", file);
+
+
+    } catch (error) {
+
+        let statusCode = error.statusCode || 500;
+
+        if (error instanceof ValidationError) statusCode = 400
+
+        return responseMessage(false, statusCode, error.message);
+
+    }
+
+}
 
 
 
@@ -290,5 +324,6 @@ module.exports = {
     index,
     check_in,
     check_out,
-    shareWithGroup
+    shareWithGroup,
+    download
 }

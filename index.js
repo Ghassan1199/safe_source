@@ -24,7 +24,7 @@ const port = process.env.SERVER_PORT;
 app.listen(port, async () => {
   console.log(`Listening on port ${port}....`);
 
-  connection.sequelize.sync({ force: true }).then(() => {
+  connection.sequelize.sync({ alter: true }).then(() => {
     console.log("connected to the database....")
   });
 

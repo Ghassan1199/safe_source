@@ -1,5 +1,5 @@
 const file_services = require('../services/file.services');
-
+const path = require('path');
 const add_file = async (req, res) => {
     const path = req.file.path;
 
@@ -85,6 +85,23 @@ const update_file = async (req, res, next) => {
 }
 
 
+const download_file = async (req, res) => {
+    const file_id = req.params.file_id;
+    const user_id = req.user_id 
+    const response = await file_services.download(file_id, user_id);
+    if (response.status == false) {
+        return res.status(response.statusCode).json(response);
+    }
+
+    const dirPath = __dirname.replace("\\api\\controllers","");
+
+     const p = response.data.dataValues.path;
+    const filePath = path.join(dirPath, p);
+
+res.download(filePath);
+}
+
+
 
 module.exports = {
     add_file,
@@ -93,5 +110,6 @@ module.exports = {
     shareWithGroup,
     check_in,
     check_out,
-    update_file
+    update_file,
+    download_file
 }
