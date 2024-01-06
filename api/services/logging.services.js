@@ -44,7 +44,6 @@ const create_log_record = async (req,res)=>{
       req_params: req.params,
       req_query: req.query,
       req_body: req.body,
-
       res_body:res.body,
       res_status:res.code
     })

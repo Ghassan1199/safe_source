@@ -33,16 +33,17 @@ app.listen(port, async () => {
 app.use((req, res, next) => {
   const originalSend = res.send;
 
-  logger.logReq(req);
+  if (process.env.FILE_LOGGING) logger.logReq(req);
 
   res.send = function (...args) {
 
     if (!res.locals.responseLogged) {
       const response = { code: res.statusCode, body: args[0] };
-      logger.logRes(response);
+      // logger.logRes(response);
+      if (process.env.FILE_LOGGING) logger.logRes(response);
+      logger.create_log_record(req, response)
 
       res.locals.responseLogged = true;
-      logger.create_log_record(req,response)
     }
 
 
